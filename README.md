@@ -117,8 +117,8 @@ curl -X GET "http://localhost:8000/transacoes/extrato" \
 
 ## Validações Implementadas
 
-- ❌ Valores negativos em depósitos e saques
-- ❌ Saque com saldo insuficiente
+- ✅ Valores negativos em depósitos e saques
+- ✅ Saque com saldo insuficiente
 - ✅ CPF único por usuário
 - ✅ Apenas uma conta por usuário
 - ✅ Autenticação obrigatória para operações sensíveis
