@@ -15,15 +15,16 @@ from models import (
 )
 from auth import (
     verificar_senha, obter_hash_senha, criar_token_acesso,
-    obter_usuario_atual, ACCESS_TOKEN_EXPIRE_MINUTES
+    obter_usuario_atual
 )
 from database import db
+from config import settings
 
 # Inicialização da aplicação FastAPI
 app = FastAPI(
-    title="API Bancária",
-    description="API RESTful para gerenciamento de operações bancárias com autenticação JWT",
-    version="1.0.0",
+    title=settings.API_TITLE,
+    description=settings.API_DESCRIPTION,
+    version=settings.API_VERSION,
     contact={
         "name": "Rychardsson",
         "url": "https://github.com/Rychardsson/API-Bancaria-FastAPI",
@@ -99,7 +100,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = criar_token_acesso(
         data={"sub": usuario["cpf"]},
         expires_delta=access_token_expires
@@ -359,4 +360,9 @@ async def raiz():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(
+        app,
+        host=settings.HOST,
+        port=settings.PORT,
+        reload=settings.DEBUG
+    )
